@@ -1,160 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Website Launcher</title>
-  <style>
-    :root {
-      --bg-color: #121212;
-      --text-color: #ffffff;
-      --card-bg: #1e1e1e;
-      --hover-bg: #333333;
-      --hover-text-color: #ffffff;
-    }
-
-    [data-theme="light"] {
-      --bg-color: #ffffff;
-      --text-color: #000000;
-      --card-bg: #f5f5f5;
-      --hover-bg: #e0e0e0;
-      --hover-text-color: #000000;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-
-    .container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      gap: 20px;
-      width: 90%;
-      max-width: 600px;
-    }
-
-    .icon {
-      width: 100px;
-      height: 120px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      background-color: var(--card-bg);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-      transition: transform 0.2s, box-shadow 0.2s;
-      cursor: pointer;
-      position: relative;
-    }
-
-    .icon img {
-      width: 60%;
-      height: auto;
-    }
-
-    .icon-name {
-      margin-top: 5px;
-      font-size: 12px;
-    }
-
-    .icon-hover {
-      display: none;
-      position: absolute;
-      bottom: 5px;
-      background-color: var(--hover-bg);
-      color: var(--hover-text-color);
-      font-size: 12px;
-      padding: 2px 5px;
-      border-radius: 5px;
-      white-space: nowrap;
-    }
-
-    .icon:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    .icon:hover .icon-hover {
-      display: block;
-    }
-
-    .theme-toggle {
-      margin-bottom: 20px;
-      padding: 10px 20px;
-      font-size: 14px;
-      cursor: pointer;
-      border: none;
-      border-radius: 5px;
-      background-color: var(--card-bg);
-      color: var(--text-color);
-      transition: background-color 0.2s, color 0.2s;
-    }
-
-    .theme-toggle:hover {
-      background-color: var(--hover-bg);
-    }
-  </style>
-</head>
-<body data-theme="dark">
-  <button class="theme-toggle">Switch to Light Mode</button>
-  <div class="container"></div>
-  <script>
-    const websites = [
-      { name: "Github", url: "https://github.com/yapweijun1996?tab=repositories", icon: "https://www.youtube.com/con_32.png", iconName: "Github" },
-      { name: "WHOIS-And-DNS-Lookup", url: "https://yapweijun1996.github.io/WHOIS-And-DNS-Lookup/", icon: "https://www.google.com/favinncon.ico", iconName: "WHOIS" },
-      { name: "Network-Latency-Checker", url: "https://yapweijun1996.github.io/Network-Latency-Checker/", icon: "https://www.youtube.com/con_32.png", iconName: "Latency Check" },
-      { name: "PayNow-QR-Generator", url: "https://yapweijun1996.github.io/PayNow-QR-Generator/", icon: "https://www.youtube.com/con_32.png", iconName: "PayNow-QR" },
-      { name: "Simple Chat GPT", url: "http://34.126.173.102/chatgpt/", icon: "https://www.youtube.com/con_32.png", iconName: "SChatgpt" },
-      { name: "Dropbox-Link-Converter", url: "https://yapweijun1996.github.io/Dropbox-Link-Converter/", icon: "https://www.youtube.com/con_32.png", iconName: "Dropbox-Link" },
-      { name: "WiFi-QR-Code-Generator", url: "https://yapweijun1996.github.io/WiFi-QR-Code-Generator/", icon: "https://www.youtube.com/con_32.png", iconName: "WiFi-QR" },
-      { name: "OD5T", url: "https://southernuniversitycollege-my.sharepoint.com/:f:/g/personal/d140270b_sc_edu_my/EkFFLtvrfgNFjvUasP7XYGgB6GUtFjy-7TuQo5w02DQitA?e=WxUea1", icon: "https://www.youtube.com/con_32.png", iconName: "OD5T" },
-      { name: "ColdFusion-Code-Beautifier", url: "https://yapweijun1996.github.io/ColdFusion-Code-Beautifier/", icon: "https://www.youtube.com/con_32.png", iconName: "Code-Beauti" },
-      { name: "QR-Code-Generator", url: "https://yapweijun1996.github.io/QR-Code-Generator/", icon: "https://www.youtube.com/con_32.png", iconName: "QR-Generator" },
-      { name: "WhatsApp-QR-Code-Generator", url: "https://yapweijun1996.github.io/WhatsApp-QR-Code-Generator/", icon: "https://www.youtube.com/con_32.png", iconName: "WApp-QR" },
-      { name: "Table-Generator", url: "https://yapweijun1996.github.io/Table-Generator/", icon: "https://www.youtube.com/con_32.png", iconName: "Table-Generator" },
-    ];
-
-    const container = document.querySelector('.container');
-    const themeToggle = document.querySelector('.theme-toggle');
-    const body = document.body;
-
-    // Load theme from localStorage
-    const currentTheme = localStorage.getItem('theme') || 'dark';
-    body.setAttribute('data-theme', currentTheme);
-    themeToggle.textContent = currentTheme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
-
-    // Toggle theme
-    themeToggle.addEventListener('click', () => {
-      const newTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      body.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-      themeToggle.textContent = newTheme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
-    });
-
-    // Create website icons
-    websites.forEach(site => {
-      const div = document.createElement('div');
-      div.className = 'icon';
-      div.onclick = () => {
-        window.open(site.url, '_blank');
-      };
-      div.innerHTML = `
-        <img src="${site.icon}" alt="${site.iconName}" title="${site.iconName}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-        <div class="icon-name">${site.iconName}</div>
-        <div class="icon-hover">${site.name}</div>
-      `;
-      container.appendChild(div);
-    });
-  </script>
-</body>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Website List</title>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			
+			body {
+				font-family: 'Roboto', sans-serif;
+				background-color: #121212;
+				color: #fff;
+				line-height: 1.6;
+				transition: background-color 0.3s ease;
+			}
+			
+			.container {
+				width: 90%;
+				max-width: 1200px;
+				margin: 0 auto;
+			}
+			
+			header {
+				position: sticky;
+				top: 0;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 20px 0;
+				border-bottom: 1px solid #333;
+				background-color: #121212; /* Ensure background stays visible when sticky */
+				z-index: 1000; /* Ensures it stays on top of other content when scrolling */
+			}
+			
+			header h1 {
+				font-size: 24px;
+			}
+			
+			.search-bar {
+				width: 100%;
+				max-width: 400px;
+				padding: 10px;
+				border: 1px solid #333;
+				border-radius: 5px;
+				background-color: #2a2a2a;
+				color: #fff;
+				font-size: 16px;
+			}
+			
+			.website-list {
+				margin-top: 20px;
+			}
+			
+			.website-item {
+				background-color: #1e1e1e;
+				padding: 15px;
+				margin: 10px 0;
+				border-radius: 8px;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				cursor: pointer;
+				transition: background-color 0.3s ease;
+			}
+			
+			.website-item:hover {
+				background-color: #333;
+			}
+			
+			.website-item a {
+				color: #fff;
+				text-decoration: none;
+				font-size: 18px;
+			}
+			
+			.website-item a:hover {
+				color: #00bcd4;
+			}
+			
+			footer {
+				text-align: center;
+				padding: 20px 0;
+				margin-top: 20px;
+				font-size: 14px;
+			}
+			
+			footer a {
+				color: #00bcd4;
+				text-decoration: none;
+			}
+			
+			footer a:hover {
+				text-decoration: underline;
+			}
+			
+			/* Mobile responsive */
+			@media (max-width: 768px) {
+				header {
+					flex-direction: column;
+					align-items: flex-start;
+				}
+				
+				header h1 {
+					font-size: 20px;
+					margin-bottom: 10px;
+				}
+				
+				.search-bar {
+					width: 100%;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		
+		<div class="container">
+			<header>
+				<h1>Website List</h1>
+				<input type="text" id="search" class="search-bar" placeholder="Search websites...">
+			</header>
+			
+			<div class="website-list" id="websiteList"></div>
+		</div>
+		
+		<footer>
+			<p>&copy; <span id="currentYear"></span> <a href="https://github.com/yapweijun1996" target="_blank">GitHub - yapweijun1996</a></p>
+		</footer>
+		
+		
+		<script>
+			// Get the current year and display it in the footer
+			document.getElementById('currentYear').textContent = new Date().getFullYear();
+			
+			const websites = [
+				{ name: "Github", url: "https://github.com/yapweijun1996?tab=repositories" },
+				{ name: "WHOIS-And-DNS-Lookup", url: "https://yapweijun1996.github.io/WHOIS-And-DNS-Lookup/" },
+				{ name: "Network-Latency-Checker", url: "https://yapweijun1996.github.io/Network-Latency-Checker/" },
+				{ name: "PayNow-QR-Generator", url: "https://yapweijun1996.github.io/PayNow-QR-Generator/" },
+				{ name: "Simple Chat GPT", url: "http://34.126.173.102/chatgpt/" },
+				{ name: "Dropbox-Link-Converter", url: "https://yapweijun1996.github.io/Dropbox-Link-Converter/" },
+				{ name: "WiFi-QR-Code-Generator", url: "https://yapweijun1996.github.io/WiFi-QR-Code-Generator/" },
+				{ name: "OD5T", url: "https://southernuniversitycollege-my.sharepoint.com/:f:/g/personal/d140270b_sc_edu_my/EkFFLtvrfgNFjvUasP7XYGgB6GUtFjy-7TuQo5w02DQitA?e=WxUea1" },
+				{ name: "ColdFusion-Code-Beautifier", url: "https://yapweijun1996.github.io/ColdFusion-Code-Beautifier/" },
+				{ name: "QR-Code-Generator", url: "https://yapweijun1996.github.io/QR-Code-Generator/" },
+				{ name: "WhatsApp-QR-Code-Generator", url: "https://yapweijun1996.github.io/WhatsApp-QR-Code-Generator/" },
+				{ name: "Table-Generator", url: "https://yapweijun1996.github.io/Table-Generator/" }
+			];
+			
+			const websiteList = document.getElementById('websiteList');
+			const searchInput = document.getElementById('search');
+			
+			function displayWebsites(websitesToDisplay) {
+				websiteList.innerHTML = '';
+				websitesToDisplay.forEach(website => {
+					const websiteItem = document.createElement('div');
+					websiteItem.classList.add('website-item');
+					websiteItem.innerHTML = `
+					<a href="${website.url}" target="_blank">${website.name}</a>
+					`;
+					// Open URL when the website div is clicked
+					websiteItem.addEventListener('click', () => {
+						window.open(website.url, '_blank');
+					});
+					websiteList.appendChild(websiteItem);
+				});
+			}
+			
+			function filterWebsites() {
+				const query = searchInput.value.toLowerCase();
+				const filteredWebsites = websites.filter(website =>
+				website.name.toLowerCase().includes(query)
+				);
+				displayWebsites(filteredWebsites);
+			}
+			
+			searchInput.addEventListener('input', filterWebsites);
+			
+			// Initial display
+			displayWebsites(websites);
+		</script>
+		
+	</body>
 </html>
