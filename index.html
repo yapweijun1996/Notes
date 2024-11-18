@@ -162,7 +162,7 @@
 					const websiteItem = document.createElement('div');
 					websiteItem.classList.add('website-item');
 					websiteItem.innerHTML = `
-					<a href="${website.url}" target="_blank">${website.name}</a>
+					${website.name}
 					`;
 					// Open URL when the website div is clicked
 					websiteItem.addEventListener('click', () => {
