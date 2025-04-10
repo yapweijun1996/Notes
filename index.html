@@ -34,8 +34,8 @@
 				align-items: center;
 				padding: 20px 0;
 				border-bottom: 1px solid #333;
-				background-color: #121212; /* Ensure background stays visible when sticky */
-				z-index: 1000; /* Ensures it stays on top of other content when scrolling */
+				background-color: #121212;
+				z-index: 1000;
 			}
 			
 			header h1 {
@@ -99,7 +99,6 @@
 				text-decoration: underline;
 			}
 			
-			/* Mobile responsive */
 			@media (max-width: 768px) {
 				header {
 					flex-direction: column;
@@ -129,16 +128,15 @@
 		</div>
 		
 		<footer>
-			<p>&copy; <span id="currentYear"></span> <a href="https://github.com/yapweijun1996" target="_blank">GitHub - yapweijun1996</a></p>
+			<p>By <a href="https://github.com/yapweijun1996" target="_blank" style="font-weight:600; text-decoration:underline;">yapweijun1996</a> @ <span id="currentYear"></span> </p>
 		</footer>
 		
-		
 		<script>
-			// Get the current year and display it in the footer
+			// Set current year in footer
 			document.getElementById('currentYear').textContent = new Date().getFullYear();
 			
 			const websites = [
-				{ name: "Sample-Dashboard", url: "https://yapweijun1996.github.io/Sample-Dashboard/" },
+				{ name: "Sample-ERP-Dashboard", url: "https://example.com/sample-erp-dashboard" },
 				{ name: "Github", url: "https://github.com/yapweijun1996?tab=repositories" },
 				{ name: "CodePen", url: "https://codepen.io/yapweijun1996" },
 				{ name: "WHOIS-And-DNS-Lookup", url: "https://yapweijun1996.github.io/WHOIS-And-DNS-Lookup/" },
@@ -167,20 +165,28 @@
 				{ name: "Gemini-API-JavaScript-Sample", url: "https://yapweijun1996.github.io/Gemini-API-JavaScript-Sample/" },
 				{ name: "OCR-Gemini-API-JavaScript", url: "https://yapweijun1996.github.io/OCR-Gemini-API-JavaScript/" },
 				{ name: "Color-Picker", url: "https://yapweijun1996.github.io/Color-Picker/" },
-				{ name: "Online-Screen-Recorder", url: "https://yapweijun1996.github.io/Online-Screen-Recorder/" },
+				{ name: "Online-Screen-Recorder", url: "https://yapweijun1996.github.io/Online-Screen-Recorder/" }
 			];
 			
 			const websiteList = document.getElementById('websiteList');
 			const searchInput = document.getElementById('search');
+			
+			// When the user clicks the search box, select all text inside it
+			searchInput.addEventListener('click', function() {
+				this.select();
+			});
+			
+			// Normalize text by converting to lower-case and replacing hyphens with spaces
+			function normalizeText(text) {
+				return text.toLowerCase().replace(/-/g, ' ').replace(/\s+/g, ' ').trim();
+			}
 			
 			function displayWebsites(websitesToDisplay) {
 				websiteList.innerHTML = '';
 				websitesToDisplay.forEach(website => {
 					const websiteItem = document.createElement('div');
 					websiteItem.classList.add('website-item');
-					websiteItem.innerHTML = `
-					${website.name}
-					`;
+					websiteItem.innerHTML = `${website.name}`;
 					// Open URL when the website div is clicked
 					websiteItem.addEventListener('click', () => {
 						window.open(website.url, '_blank');
@@ -190,9 +196,9 @@
 			}
 			
 			function filterWebsites() {
-				const query = searchInput.value.toLowerCase();
+				const query = normalizeText(searchInput.value);
 				const filteredWebsites = websites.filter(website =>
-				website.name.toLowerCase().includes(query)
+				normalizeText(website.name).includes(query)
 				);
 				displayWebsites(filteredWebsites);
 			}
